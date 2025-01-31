@@ -1,0 +1,151 @@
+:root {
+    --primary-color: #1db954;
+    --background-dark: #121212;
+    --background-light: #282828;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+}
+
+body {
+    background-color: var(--background-dark);
+    color: var(--text-primary);
+    font-family: 'Roboto', sans-serif;
+}
+
+.mdl-layout__header {
+    background-color: var(--background-dark);
+}
+
+.mdl-layout__drawer {
+    background-color: var(--background-light);
+    border-right: none;
+}
+
+.mdl-layout__drawer .mdl-navigation__link {
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    padding: 16px;
+}
+
+.mdl-layout__drawer .mdl-navigation__link i {
+    margin-right: 16px;
+}
+
+.mdl-layout__drawer .mdl-navigation__link.active {
+    background-color: var(--primary-color);
+}
+
+.page-content {
+    padding: 24px;
+}
+
+/* Stats Cards */
+.stats-card {
+    min-height: 120px;
+    width: 100%;
+    background-color: var(--background-light);
+}
+
+.stats-card .mdl-card__title {
+    color: var(--text-primary);
+}
+
+.stats-card .mdl-card__supporting-text {
+    font-size: 32px;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+/* Data Tables */
+.mdl-data-table {
+    width: 100%;
+    margin-top: 20px;
+    background-color: var(--background-light);
+    color: var(--text-primary);
+}
+
+.mdl-data-table th {
+    color: var(--text-primary);
+}
+
+.mdl-data-table td {
+    color: var(--text-secondary);
+}
+
+/* Cards */
+.mdl-card {
+    width: 100%;
+    background-color: var(--background-light);
+}
+
+.mdl-card__title {
+    color: var(--text-primary);
+}
+
+.mdl-card__supporting-text {
+    color: var(--text-secondary);
+}
+
+/* Sections */
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+/* Charts */
+canvas {
+    width: 100% !important;
+    height: 300px !important;
+}
+
+/* Dialog */
+.mdl-dialog {
+    background-color: var(--background-light);
+    color: var(--text-primary);
+}
+
+.mdl-dialog__title {
+    color: var(--text-primary);
+}
+
+.mdl-textfield__input {
+    color: var(--text-primary);
+}
+
+.mdl-textfield__label {
+    color: var(--text-secondary);
+}
+
+/* Activity List */
+.mdl-list__item {
+    color: var(--text-primary);
+}
+
+.mdl-list__item-primary-content {
+    color: var(--text-secondary);
+}
+
+/* Custom Button Styles */
+.mdl-button--colored {
+    background-color: var(--primary-color) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mdl-grid {
+        padding: 0;
+    }
+    
+    .mdl-cell {
+        margin: 8px;
+    }
+    
+    .mdl-data-table {
+        overflow-x: auto;
+        display: block;
+    }
+}

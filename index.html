@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Music Recommender</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="popup.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-detection"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.5.6/dialog-polyfill.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.5.6/dialog-polyfill.min.css">
+</head>
+<body>
+    <!-- Welcome Pop-up -->
+    <div class="welcome-popup" id="welcomePopup">
+        <div class="neon-glow glow-1"></div>
+        <div class="neon-glow glow-2"></div>
+        <div class="popup-content">
+            <h1 class="popup-title">Welcome to EmotiPlay</h1>
+            <p class="popup-text">Welcome to the era of AI in music! Enhance your music journey with our app.</p>
+            <button class="skip-button" onclick="closePopup()">Skip</button>
+            <p class="popup-creators">Made by Pranshu Tiwari, Ashish Kumar, and Jatin</p>
+        </div>
+    </div>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+        <!-- Header -->
+        <header class="mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <div class="search-box">
+                    <i class="material-icons">search</i>
+                    <input type="text" placeholder="Search for songs, artists, or moods...">
+                </div>
+                <div class="mdl-layout-spacer"></div>
+                <button id="emotionDetectBtn" class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">face</i>
+                </button>
+                <button id="userProfileBtn" class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">account_circle</i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Sidebar Navigation -->
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Emotion Music</span>
+            <nav class="mdl-navigation">
+                <!-- Main Menu -->
+                <div class="nav-section">
+                    <h6>MAIN MENU</h6>
+                    <a class="mdl-navigation__link active" href="#home">
+                        <i class="material-icons">home</i> Home
+                    </a>
+                    <a class="mdl-navigation__link" href="#playlists">
+                        <i class="material-icons">queue_music</i> Playlists
+                    </a>
+                    <a class="mdl-navigation__link" href="#library">
+                        <i class="material-icons">library_music</i> Library
+                    </a>
+                </div>
+
+                <!-- Categories -->
+                <div class="nav-section">
+                    <h6>CATEGORIES</h6>
+                    <a class="mdl-navigation__link" href="#genres">
+                        <i class="material-icons">album</i> Genres
+                    </a>
+                    <a class="mdl-navigation__link" href="#moods">
+                        <i class="material-icons">mood</i> Moods
+                    </a>
+                    <a class="mdl-navigation__link" href="#spirituality">
+                        <i class="material-icons">self_improvement</i> Spirituality
+                    </a>
+                    <a class="mdl-navigation__link" href="#trending">
+                        <i class="material-icons">trending_up</i> Trending
+                    </a>
+                </div>
+
+                <!-- Your Library -->
+                <div class="nav-section">
+                    <h6>YOUR LIBRARY</h6>
+                    <a class="mdl-navigation__link" href="#liked-songs">
+                        <i class="material-icons">favorite</i> Liked Songs
+                    </a>
+                    <a class="mdl-navigation__link" href="#albums">
+                        <i class="material-icons">album</i> Albums
+                    </a>
+                    <a class="mdl-navigation__link" href="#artists">
+                        <i class="material-icons">person</i> Artists
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <main class="mdl-layout__content">
+            <!-- Home Section -->
+            <section id="home-section" class="page-section active">
+                <div class="emotion-detector">
+                    <div class="emotion-camera">
+                        <video id="video" playsinline></video>
+                        <div class="emotion-overlay">
+                            <div class="capture-animation">
+                                <i class="material-icons">headphones</i>
+                                <div class="scanning-line"></div>
+                                <p>Capturing your emotion...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="emotion-status">
+                        <i class="material-icons">mood</i>
+                        <span>Current Mood: <strong id="current-mood">Detecting...</strong></span>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <!-- Mood-Based Recommendations -->
+                    <div class="section-container">
+                        <h2>Based on Your Mood</h2>
+                        <div class="music-grid" id="mood-recommendations">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+
+                    <!-- Recently Played -->
+                    <div class="section-container">
+                        <h2>Recently Played</h2>
+                        <div class="music-grid" id="recent-tracks">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+
+                    <!-- Trending Now -->
+                    <div class="section-container">
+                        <h2>Trending Now</h2>
+                        <div class="music-grid" id="trending-tracks">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section id="categories-section" class="page-section">
+                <div class="categories-container">
+                    <!-- Genres -->
+                    <div class="category-group">
+                        <h2>Genres</h2>
+                        <div class="category-grid">
+                            <div class="category-card" style="background-color: #1DB954">Pop</div>
+                            <div class="category-card" style="background-color: #FF6B6B">Rock</div>
+                            <div class="category-card" style="background-color: #4A90E2">Jazz</div>
+                            <div class="category-card" style="background-color: #FFD93D">Hip-Hop</div>
+                            <div class="category-card" style="background-color: #FF4081">EDM</div>
+                            <div class="category-card" style="background-color: #8E44AD">Classical</div>
+                        </div>
+                    </div>
+
+                    <!-- Moods -->
+                    <div class="category-group">
+                        <h2>Moods</h2>
+                        <div class="category-grid">
+                            <div class="category-card" style="background-color: #FFD700">Happy</div>
+                            <div class="category-card" style="background-color: #4682B4">Sad</div>
+                            <div class="category-card" style="background-color: #98FB98">Relaxing</div>
+                            <div class="category-card" style="background-color: #FF4500">Energetic</div>
+                            <div class="category-card" style="background-color: #FF69B4">Romantic</div>
+                            <div class="category-card" style="background-color: #20B2AA">Focus</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Music Player -->
+        <div class="music-player">
+            <div class="now-playing">
+                <img id="current-track-image" src="placeholder.jpg" alt="Album Art">
+                <div class="track-info">
+                    <h3 id="current-track-name">Track Name</h3>
+                    <p id="current-track-artist">Artist Name</p>
+                </div>
+                <button class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">favorite_border</i>
+                </button>
+            </div>
+
+            <div class="player-controls">
+                <button class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">shuffle</i>
+                </button>
+                <button class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">skip_previous</i>
+                </button>
+                <button id="playPauseBtn" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
+                    <i class="material-icons">play_arrow</i>
+                </button>
+                <button class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">skip_next</i>
+                </button>
+                <button class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">repeat</i>
+                </button>
+            </div>
+
+            <div class="player-volume">
+                <i class="material-icons">volume_up</i>
+                <div class="mdl-slider__container">
+                    <input class="mdl-slider mdl-js-slider" type="range" min="0" max="100" value="70">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>

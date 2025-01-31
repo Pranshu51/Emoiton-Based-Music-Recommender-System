@@ -1,0 +1,101 @@
+/* Pop-up Styles */
+.welcome-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    animation: fadeInOut 3s ease-in-out forwards;
+}
+
+.popup-content {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 600px;
+    transform: scale(0.9);
+    animation: scaleIn 0.5s ease-out forwards;
+}
+
+.popup-title {
+    font-size: 2.5rem;
+    background: linear-gradient(45deg, #00ff87, #60efff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.popup-text {
+    color: #fff;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.popup-creators {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin-top: 2rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.skip-button {
+    background: linear-gradient(45deg, #00ff87, #60efff);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.skip-button:hover {
+    transform: scale(1.05);
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.9); }
+    to { transform: scale(1); }
+}
+
+/* Neon Glow Effects */
+.neon-glow {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    filter: blur(60px);
+}
+
+.glow-1 {
+    top: 20%;
+    left: 20%;
+    background: rgba(0, 255, 135, 0.15);
+}
+
+.glow-2 {
+    bottom: 20%;
+    right: 20%;
+    background: rgba(96, 239, 255, 0.15);
+}
